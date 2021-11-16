@@ -1,6 +1,7 @@
 import logo from './logo.svg'
 import './App.css'
 import { useState } from 'react'
+import HooksLifecycle from './HooksLifecycle'
 
 // React Hooks allow you to use the State and the Lifecycle methods in functional components.
 
@@ -22,22 +23,44 @@ const App = () => {
   // count is the state variable
   // setCount is the function capable of setting a new value on count
   // the argument you're gonna invoke useState with (0) is going to be the initial value of the state variable
-  const [name, setName] = useState('')
+  const [name, setName] = useState('Asadbek')
   // same thing with the name state variable, this one is going to be initialized with an empty string
 
   return (
     <div className="App">
       <header className="App-header">
+        <HooksLifecycle count={count} name={name} />
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
+        <p onClick={() => setName('Sefa')}>My name is {name}</p>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        <h2>THE VALUE OF COUNT IS {count}</h2>
+        <button onClick={() => setCount(count - 1)}>-</button>
       </header>
     </div>
   )
 }
 
 export default App
+
+// both this.setState in a class component and the setter function of useState (setCount, setName, etc...)
+// they are ASYNCRONOUS functions, they take a couple of cycles/ms to complete
+// they are not even promises, they cannot be "awaited"
+
+// this.setState({ <-- take some time to complete, it's asynchronous
+//   count: this.state.count + 1
+// })
+// console.log(count) <-- this is still going to be the OLD value of count
+
+//FIX:
+// this.setState({
+//   count: this.state.count + 1
+// }, () => {
+//    console.log(count) <-- this is GUARANTEED to be the updated value
+//    because you're guaranteed that this callback is going to be executed AFTER setting the state
+//})
+
+// in useState this behavior has NOT been implemented
+// setCount(count + 1)
+// console.log(count) <-- this will be still be the old value
+// you can use this package to solve this problem
+// https://github.com/the-road-to-learn-react/use-state-with-callback
