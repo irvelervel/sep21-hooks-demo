@@ -29,7 +29,7 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <HooksLifecycle count={count} name={name} />
+        {count < 5 && <HooksLifecycle count={count} name={name} />}
         <img src={logo} className="App-logo" alt="logo" />
         <p onClick={() => setName('Sefa')}>My name is {name}</p>
         <button onClick={() => setCount(count + 1)}>+</button>
